@@ -1,0 +1,9 @@
+LIBRARY showtext.dll
+EXPORTS
+ showtextLoadOutlineFuns
+ showtextCleanOutlineFuns
+ showtextReturnNullPointer
+ showtextLoadDevDesc
+ showtextCleanDevDesc
+ showtextBegin
+ showtextEnd
