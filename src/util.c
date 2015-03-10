@@ -100,12 +100,12 @@ FT_Face GetFTFace(const pGEcontext gc)
             break;
         }
     }
-    /* If not found, search "wqy" */
+    /* If not found, search "wqy-microhei" */
     if(i == listLen)
     {
         for(i = 0; i < listLen; i++)
         {
-            if(strcmp("wqy", CHAR(STRING_ELT(fontNames, i))) == 0)
+            if(strcmp("wqy-microhei", CHAR(STRING_ELT(fontNames, i))) == 0)
             {
                 break;
             }
@@ -126,7 +126,7 @@ FT_Outline_Funcs* GetFTOutlineFuncs()
     FT_Outline_Funcs *funs;
     SEXP extPtr;
 
-    extPtr = GetVarFromPkgEnv(".outline.funs", "showtext");
+    extPtr = GetVarFromPkgEnv(".outline_funs", "showtext");
     funs = (FT_Outline_Funcs *) R_ExternalPtrAddr(extPtr);
 
     return funs;
@@ -141,25 +141,24 @@ int GetNseg()
     return INTEGER(nseg)[0];
 }
 
-pDevDesc GetDevDesc()
+pDevDesc GetSavedDevDesc()
 {
     pDevDesc dd_save;
     SEXP extPtr;
 
-    extPtr = GetVarFromPkgEnv(".dd.save", "showtext");
+    extPtr = GetVarFromPkgEnv(".dd_saved", "showtext");
     dd_save = (pDevDesc) R_ExternalPtrAddr(extPtr);
 
     return dd_save;
 }
 
-pGEDevDesc GetGEDevDesc()
+pGEDevDesc GetSavedDeviceID()
 {
-    pGEDevDesc gdd_save;
+    pGEDevDesc gdd_saved;
     SEXP extPtr;
 
-    extPtr = GetVarFromPkgEnv(".gdd.save", "showtext");
-    gdd_save = (pGEDevDesc) R_ExternalPtrAddr(extPtr);
+    extPtr = GetVarFromPkgEnv(".device_id", "showtext");
+    gdd_saved = (pGEDevDesc) R_ExternalPtrAddr(extPtr);
 
-    return gdd_save;
+    return gdd_saved;
 }
-
