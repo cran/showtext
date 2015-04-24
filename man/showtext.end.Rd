@@ -2,19 +2,19 @@
 % Please edit documentation in R/showtext.R
 \name{showtext.end}
 \alias{showtext.end}
-\title{Turn Off 'showtext' Text Rendering}
+\title{Turning Off 'showtext' Text Rendering}
 \usage{
 showtext.end()
 }
 \description{
 This function will turn off the \pkg{showtext} functionality
 of rendering text. When you call this function, the current
-active device should be the same with the one when you call
+active device should be the same as the one when you call
 \code{\link{showtext.begin}()}, or an error will be issued.
 See the example in \code{\link{showtext.begin}()}.
 }
 \author{
-Yixuan Qiu <\url{http://yixuan.cos.name/}>
+Yixuan Qiu <\url{http://statr.me/}>
 }
 \seealso{
 \code{\link{showtext.begin}()}
