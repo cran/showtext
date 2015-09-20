@@ -1,5 +1,5 @@
-fd8d0352df2478559d858ce0f984b5ae *DESCRIPTION
-faaab5d3772ffa5882b7c7fb79efabbf *NAMESPACE
+6da2f5b76c8b72609fb83adf8b04250a *DESCRIPTION
+a867ff69d46fcf6a07225f40173e0318 *NAMESPACE
 c10f8c36a4ccdc782c3e75bddd09f467 *R/font.R
 e0147b86000160edb30877e04f223915 *R/showtext.R
 1cce1400ff2aee2e9aed9fa12913fa82 *R/zzz.R
@@ -9,7 +9,7 @@ e5ad0d870d102b8d73fd6757a94651e5 *configure
 68b329da9893e34099c7d8ad5cb9c940 *configure.win
 a03d5f0609614e5f6c35df6a452ffc9e *inst/AUTHORS
 782fe5998130fd4735ef1431998964d4 *inst/COPYRIGHTS
-9833b8f8accd37b2af27bd638b7f51ef *inst/NEWS.Rd
+b4498c11c03daa90629070d5f46654b9 *inst/NEWS.Rd
 f890e68bf9cf514448304790534f6904 *man/showtext.auto.Rd
 274ba21955fda2d195893a04f9cbc4db *man/showtext.begin.Rd
 0b64f291602ae7ac05e54d155cb4df3c *man/showtext.end.Rd
@@ -32,4 +32,4 @@ d5db2203196fa51b671673560c3923d7 *src/outline.c
 a7cf6c9533ec8c0bf55c3860297f115c *src/utf8.c
 486e1a7893fa531c4c9b0856a20e2ced *src/utf8.h
 f6c13df6a06d0ff4636e64b13abeb556 *src/util.c
-dee8977c19c3f39dbce0b995d5c4c7f3 *src/util.h
+bc9e0fa437f89ad60cb6d857b4423e28 *src/util.h

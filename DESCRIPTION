@@ -1,8 +1,8 @@
 Package: showtext
 Type: Package
 Title: Using Fonts More Easily in R Graphs
-Version: 0.4-2
-Date: 2015-05-23
+Version: 0.4-3
+Date: 2015-09-20
 Author: Yixuan Qiu and authors/contributors of the
     included software. See file AUTHORS for details.
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
@@ -13,13 +13,13 @@ Description: Making it easy to use various types of fonts
     hence after the plot has been created, it no longer relies on the font files.
     No external software such as Ghostscript is needed to use this package.
 Depends: sysfonts
-Imports: showtextdb
+Imports: showtextdb, grDevices
 SystemRequirements: zlib, libpng, FreeType
 URL: https://github.com/yixuan/showtext
 BugReports: https://github.com/yixuan/showtext/issues
 License: Apache License (>= 2.0)
 Copyright: see file COPYRIGHTS
 NeedsCompilation: yes
-Packaged: 2015-05-23 20:25:07 UTC; qyx
+Packaged: 2015-09-20 14:09:53 UTC; qyx
 Repository: CRAN
-Date/Publication: 2015-05-24 07:57:13
+Date/Publication: 2015-09-20 17:50:37
