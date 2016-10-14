@@ -1,15 +1,19 @@
-9f4fcde0c50df52bdbc0cc7c42d65ebd *DESCRIPTION
+23ec3128ef295dab43ba13a4a5db1def *DESCRIPTION
 a867ff69d46fcf6a07225f40173e0318 *NAMESPACE
 c10f8c36a4ccdc782c3e75bddd09f467 *R/font.R
 e0147b86000160edb30877e04f223915 *R/showtext.R
 1cce1400ff2aee2e9aed9fa12913fa82 *R/zzz.R
 4e3f777b56de125b6359c7cc01e99923 *README.md
+bc555b424dea104fa10bbd38a66ee06c *build/vignette.rds
 e5ad0d870d102b8d73fd6757a94651e5 *configure
 1bb5ebb3f29220775d13ac46b47947e4 *configure.ac
 68b329da9893e34099c7d8ad5cb9c940 *configure.win
 a03d5f0609614e5f6c35df6a452ffc9e *inst/AUTHORS
 782fe5998130fd4735ef1431998964d4 *inst/COPYRIGHTS
-19e5b92724006b2b985527953f52710e *inst/NEWS.Rd
+79d371d54e4d1d1e90bcd8ec9bce085b *inst/NEWS.Rd
+876653f67fb40da91b450949f38690d0 *inst/doc/introduction.R
+004cc0d5dfc1ca547850f2d746117b92 *inst/doc/introduction.Rmd
+0ffc27200d09270658b584c970c5bce0 *inst/doc/introduction.html
 f435e23447ed25189c7f894b2f30af06 *man/showtext.auto.Rd
 b6dcb881d662a3262100679f472ae7b3 *man/showtext.begin.Rd
 ec2e9830a5d62020999bdb9b8a256fdb *man/showtext.end.Rd
@@ -18,7 +22,7 @@ eb6985e619c43d8b7d8fd26fd8d13326 *man/showtext.opts.Rd
 c6989c283c995ad0d79532c90c44c881 *src/Makevars.win
 d4118eda9ad29de18af8dcec615e0b1c *src/array.c
 f5af5cdb6118ce27e101c24aa3d2d2f1 *src/array.h
-6d30b5c781ce7c591a7656f7e58c6263 *src/devfuns.c
+b1df0558213391a1b0a0dba509f6689b *src/devfuns.c
 b8da726859087914c5c5cf212df85d7e *src/devfuns.h
 b6269570ba0f4902faf115f91efe7610 *src/fonts.c
 a422881737810ae9680e6df93efca202 *src/fonts.h
@@ -33,3 +37,5 @@ a7cf6c9533ec8c0bf55c3860297f115c *src/utf8.c
 486e1a7893fa531c4c9b0856a20e2ced *src/utf8.h
 f6c13df6a06d0ff4636e64b13abeb556 *src/util.c
 bc9e0fa437f89ad60cb6d857b4423e28 *src/util.h
+cce93e6400ddc77d654db8dd40642723 *vignettes/diagram.png
+004cc0d5dfc1ca547850f2d746117b92 *vignettes/introduction.Rmd

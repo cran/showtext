@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package "showtext"}
 
+\section{Changes in showtext version 0.4-5}{
+  \itemize{
+    \item Fixed the text() device function for string beginning with "\\n"
+          (\href{https://github.com/yixuan/showtext/issues/9}{#9})
+    \item Added a package vignette
+  }
+}
+
 \section{Changes in showtext version 0.4-4}{
   \itemize{
     \item Fixed a memory leak problem
