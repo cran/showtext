@@ -3,9 +3,9 @@
 #include "outline.h"
 #include "util.h"
 
-void showtextMetricInfo(int c, const pGEcontext gc, double* ascent, double* descent, double* width, pDevDesc dd)
+void showtext_metric_info(int c, const pGEcontext gc, double* ascent, double* descent, double* width, pDevDesc dd)
 {
-    FT_Face face = GetFTFace(gc);
+    FT_Face face = get_ft_face(gc);
     FT_Error err;
 
     /* Font size in points (1/72 inches) */
@@ -17,7 +17,7 @@ void showtextMetricInfo(int c, const pGEcontext gc, double* ascent, double* desc
     /* Then we further convert points to device units.
        Device unit can be in points (usually vector graphics),
        or in pixels (usually bitmap graphics). */
-    double dev_units_per_EM_unit = pts_per_EM_unit * GetDevUnitsPerPoint();
+    double dev_units_per_EM_unit = pts_per_EM_unit * get_dev_units_per_point();
 
     if(c == 0) c = 77;  /* Letter 'M' */
     if(c < 0)  c = -c;
@@ -26,30 +26,30 @@ void showtextMetricInfo(int c, const pGEcontext gc, double* ascent, double* desc
     err = FT_Load_Char(face, c, FT_LOAD_NO_SCALE);
     if(err)
     {
-        FTError(err);
+        forward_ft_error(err);
         *ascent = *descent = *width = 0.0;
         return;
     }
 
-    *ascent = face->glyph->metrics.horiBearingY * dev_units_per_EM_unit;
+    *ascent  = face->glyph->metrics.horiBearingY * dev_units_per_EM_unit;
     *descent = face->glyph->metrics.height * dev_units_per_EM_unit - *ascent;
-    *width = face->glyph->metrics.horiAdvance * dev_units_per_EM_unit;
+    *width   = face->glyph->metrics.horiAdvance * dev_units_per_EM_unit;
 }
 
-double showtextStrWidthUTF8(const char *str, const pGEcontext gc, pDevDesc dd)
+double showtext_str_width_utf8(const char* str, const pGEcontext gc, pDevDesc dd)
 {
     /* Convert UTF-8 string to Unicode array */
     int max_len = strlen(str);
-    unsigned int *unicode =
-        (unsigned int *) calloc(max_len + 1, sizeof(unsigned int));
-    int len = utf8toucs4(unicode, str, max_len);
+    unsigned int* unicode =
+        (unsigned int*) calloc(max_len + 1, sizeof(unsigned int));
+    int len = utf8_to_ucs4(unicode, str, max_len);
 
-    FT_Face face = GetFTFace(gc);
+    FT_Face face = get_ft_face(gc);
     FT_Error err;
 
     double font_size = gc->ps * gc->cex;
     double pts_per_EM_unit = font_size / face->units_per_EM;
-    double dev_units_per_EM_unit = pts_per_EM_unit * GetDevUnitsPerPoint();
+    double dev_units_per_EM_unit = pts_per_EM_unit * get_dev_units_per_point();
 
     double width = 0.0;
     int i;
@@ -59,7 +59,7 @@ double showtextStrWidthUTF8(const char *str, const pGEcontext gc, pDevDesc dd)
         err = FT_Load_Char(face, unicode[i], FT_LOAD_NO_SCALE);
         if(err)
         {
-            FTError(err);
+            forward_ft_error(err);
             continue;
         }
         width += face->glyph->metrics.horiAdvance * dev_units_per_EM_unit;
@@ -70,7 +70,7 @@ double showtextStrWidthUTF8(const char *str, const pGEcontext gc, pDevDesc dd)
     return width;
 }
 
-void showtextTextUTF8Raster(double x, double y, const char *str, double rot, double hadj, const pGEcontext gc, pDevDesc dd)
+void showtext_text_utf8_raster(double x, double y, const char* str, double rot, double hadj, const pGEcontext gc, pDevDesc dd)
 {
     /* Convert UTF-8 string to Unicode array */
     int max_len = strlen(str);
@@ -79,28 +79,28 @@ void showtextTextUTF8Raster(double x, double y, const char *str, double rot, dou
     
     unsigned int *unicode =
         (unsigned int *) calloc(max_len + 1, sizeof(unsigned int));
-    int len = utf8toucs4(unicode, str, max_len);
+    int len = utf8_to_ucs4(unicode, str, max_len);
 
     /* raster() rotates around the bottom-left corner,
        and text() rotates around the center indicated by hadj. */
     int trans_sign = dd->bottom > dd->top ? -1: 1;
-    double trans_X, trans_Y;
+    double trans_x, trans_y;
 
     /* Calculate pixel size */
-    int px = (int) (gc->ps * gc->cex * GetDevUnitsPerPoint() + 0.5);
+    int px = (int) (gc->ps * gc->cex * get_dev_units_per_point() + 0.5);
 
     /* Get raster data */
-    RasterData *rd = GetStringRasterImage(unicode, len, px, px,
-        rot * DEG2RAD, hadj, gc, &trans_X, &trans_Y);
+    RasterData *rd = get_string_raster_image(unicode, len, px, px,
+        rot * DEG2RAD, hadj, gc, &trans_x, &trans_y);
 
     dd->raster(rd->data, rd->ncol, rd->nrow,
-               x - trans_X, y - trans_sign * trans_Y,
+               x - trans_x, y - trans_sign * trans_y,
                rd->ncol, -rd->nrow, 0.0, FALSE, gc, dd);
-    FreeRasterData(rd);
+    RasterData_destroy(rd);
     free(unicode);
 }
 
-void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, double hadj, const pGEcontext gc, pDevDesc dd)
+void showtext_text_utf8_polygon(double x, double y, const char* str, double rot, double hadj, const pGEcontext gc, pDevDesc dd)
 {
     /* Convert UTF-8 string to Unicode array */
     int max_len = strlen(str);
@@ -109,10 +109,10 @@ void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, do
     
     unsigned int *unicode =
         (unsigned int *) calloc(max_len + 1, sizeof(unsigned int));
-    int len = utf8toucs4(unicode, str, max_len);
+    int len = utf8_to_ucs4(unicode, str, max_len);
 
-    FT_Outline_Funcs *funs = GetFTOutlineFuncs();
-    FT_Face face = GetFTFace(gc);
+    FT_Outline_Funcs* funs = get_ft_outline_funcs();
+    FT_Face face = get_ft_face(gc);
     double fontSize = gc->ps * gc->cex;
 
     R_GE_gcontext gc_modify = *gc;
@@ -122,21 +122,22 @@ void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, do
     FT_Error err;
     int i;
 
-    double strWidth = showtextStrWidthUTF8(str, gc, dd);
-    double l = hadj * strWidth;
+    double str_width = showtext_str_width_utf8(str, gc, dd);
+    double l = hadj * str_width;
 
-    data.ratio_EM = fontSize / face->units_per_EM;
-    data.deltax = 0.0;
-    data.nseg = GetNseg();
+    data.ft_to_dev_ratio = fontSize / face->units_per_EM;
+    data.offset_x = 0.0;
+    data.num_segments = get_num_segments();
     data.trans.sign = dd->bottom > dd->top ? -1: 1;
     data.trans.theta = rot;
     data.trans.x = x - l * cos(rot * DEG2RAD);
     data.trans.y = y - data.trans.sign * l * sin(rot * DEG2RAD);
-    data.curr_dev_trans.x = 0;
-    data.curr_dev_trans.y = 0;
-    data.outline_x = ArrayNew(100);
-    data.outline_y = ArrayNew(100);
-    data.npoly = 0;
+    data.curr_pos.x = 0;
+    data.curr_pos.y = 0;
+    data.outline_x = Array_new(100);
+    data.outline_y = Array_new(100);
+    data.num_poly = 0;
+    data.points_in_poly = IntArray_new(10);
 
     gc_modify.fill = gc->col;
     gc_modify.col = R_RGBA(0xFF, 0xFF, 0xFF, 0x00);
@@ -147,18 +148,20 @@ void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, do
         err = FT_Load_Char(face, unicode[i], FT_LOAD_NO_SCALE);
         if(err)
         {
-            FTError(err);
+            forward_ft_error(err);
             continue;
         }
         outline = face->glyph->outline;
         err = FT_Outline_Decompose(&outline, funs, &data);
         if(err)
         {
-            FTError(err);
-            ArrayDestroy(data.outline_x);
-            ArrayDestroy(data.outline_y);
-            data.outline_x = ArrayNew(100);
-            data.outline_y = ArrayNew(100);
+            forward_ft_error(err);
+            Array_destroy(data.outline_x);
+            Array_destroy(data.outline_y);
+            IntArray_destroy(data.points_in_poly);
+            data.outline_x = Array_new(100);
+            data.outline_y = Array_new(100);
+            data.points_in_poly = IntArray_new(10);
             continue;
         }
         if(data.outline_x->len > 0)
@@ -167,8 +170,8 @@ void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, do
             {
                 dd->path(data.outline_x->data,
                          data.outline_y->data,
-                         data.npoly,
-                         data.nper,
+                         data.num_poly,
+                         data.points_in_poly->data,
                          FALSE,
                          &gc_modify, dd);
             } else if(dd->polygon) {
@@ -181,16 +184,15 @@ void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, do
                 double *x_ptr = data.outline_x->data;
                 double *y_ptr = data.outline_y->data;
                 double x_curr, y_curr, x0, y0;
-                for(p = 0; p < data.npoly; p++)
+                for(p = 0; p < data.num_poly; p++)
                 {
                     x0 = x_curr = *x_ptr;
                     y0 = y_curr = *y_ptr;
-                    for(l = 0; l < data.nper[p] - 1; l++)
+                    for(l = 0; l < data.points_in_poly->data[p] - 1; l++)
                     {
                         x_ptr++;
                         y_ptr++;
-                        dd->line(x_curr, y_curr, *x_ptr, *y_ptr,
-                                 gc, dd);
+                        dd->line(x_curr, y_curr, *x_ptr, *y_ptr, gc, dd);
                         x_curr = *x_ptr;
                         y_curr = *y_ptr;
                     }
@@ -203,20 +205,23 @@ void showtextTextUTF8Polygon(double x, double y, const char *str, double rot, do
                 Rf_error("device should be capable of path(), polygon() or line()");
             }
         }
-        ArrayDestroy(data.outline_x);
-        ArrayDestroy(data.outline_y);
-        data.outline_x = ArrayNew(100);
-        data.outline_y = ArrayNew(100);
-        data.npoly = 0;
+        Array_destroy(data.outline_x);
+        Array_destroy(data.outline_y);
+        IntArray_destroy(data.points_in_poly);
+        data.outline_x = Array_new(100);
+        data.outline_y = Array_new(100);
+        data.points_in_poly = IntArray_new(10);
+        data.num_poly = 0;
         /*
            After we draw a character, we move the pen right to a distance
            of the advance.
            See the picture in
            http://www.freetype.org/freetype2/docs/tutorial/step2.html
         */
-        data.deltax += face->glyph->metrics.horiAdvance * data.ratio_EM;
+        data.offset_x += face->glyph->metrics.horiAdvance * data.ft_to_dev_ratio;
     }
-    ArrayDestroy(data.outline_x);
-    ArrayDestroy(data.outline_y);
+    Array_destroy(data.outline_x);
+    Array_destroy(data.outline_y);
+    IntArray_destroy(data.points_in_poly);
     free(unicode);
 }

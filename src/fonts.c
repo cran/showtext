@@ -4,13 +4,13 @@
 
 
 /* Convert a UTF-8 string to an array of Unicodes */
-int utf8toucs4(unsigned int *ucs4, const char *utf8, int n)
+int utf8_to_ucs4(unsigned int* ucs4, const char* utf8, int n)
 {
     int len = 0;
     int step = 0;
     int err;
-    unsigned int *p1;
-    const char * p2;
+    unsigned int* p1;
+    const char* p2;
     for(p1 = ucs4, p2 = utf8; ; p1++, p2 += step)
     {
         /* if we meet '\0' */
@@ -24,24 +24,26 @@ int utf8toucs4(unsigned int *ucs4, const char *utf8, int n)
         len++;
         if(len >= n) break;
     }
+    
     return len;
 }
 
 /* A small example */
 /*
-SEXP utf8toint(SEXP str)
+SEXP utf8_to_int(SEXP str)
 {
-    const char *s = CHAR(STRING_ELT(str, 0));
+    const char* s = CHAR(STRING_ELT(str, 0));
     int maxlen = strlen(s);
-    unsigned int *buf = calloc(maxlen + 1, sizeof(int));
-    int len = utf8toucs4(buf, s, maxlen);
+    unsigned int* buf = calloc(maxlen + 1, sizeof(int));
+    int len = utf8_to_ucs4(buf, s, maxlen);
     SEXP res;
     int i;
     PROTECT(res = allocVector(INTSXP, len));
     for(i = 0; i < len; i++)
         INTEGER(res)[i] = buf[i];
-    UNPROTECT(1);
     free(buf);
+ 
+    UNPROTECT(1);
     return res;
 }
 */
@@ -49,10 +51,10 @@ SEXP utf8toint(SEXP str)
 
 
 /* Obtain the FT_Face structure given family name and font face */
-FT_Face GetFTFace(const pGEcontext gc)
+FT_Face get_ft_face(const pGEcontext gc)
 {
     int font_face = gc->fontface;
-    FontDesc *font;
+    FontDesc* font;
     
     SEXP font_list;
     SEXP font_names;
@@ -61,10 +63,10 @@ FT_Face GetFTFace(const pGEcontext gc)
     
     /* Font list is sysfonts:::.pkg.env$.font.list,
        defined in sysfonts/R/font.R */    
-    font_list = GetVarFromPkgEnv(".font.list", "sysfonts");
+    font_list = PROTECT(get_var_from_pkg_env(".font.list", "sysfonts"));
     
     /* Search the given family name */
-    font_names = GET_NAMES(font_list);
+    font_names = PROTECT(GET_NAMES(font_list));
     list_len = Rf_length(font_list);
     for(i = 0; i < list_len; i++)
     {
@@ -95,14 +97,15 @@ FT_Face GetFTFace(const pGEcontext gc)
     if(font_face < 1 || font_face > 5) font_face = 1;
     
     ext_ptr = VECTOR_ELT(VECTOR_ELT(font_list, i), font_face - 1);
-    font = (FontDesc *) R_ExternalPtrAddr(ext_ptr);
+    font = (FontDesc*) R_ExternalPtrAddr(ext_ptr);
     
+    UNPROTECT(2);
     return font->face;
 }
 
 /* Errors that may occur in loading font characters.
    Here we just give warnings. */
-void FTError(FT_Error err)
+void forward_ft_error(FT_Error err)
 {
     switch(err)
     {
@@ -137,8 +140,8 @@ void FTError(FT_Error err)
 }
 
 /* Get the bounding box of a string, with a possible rotation */
-void GetStringBBox(FT_Face face, const unsigned int *str, int nchar, double rot,
-                   int *xmin, int *xmax, int *ymin, int *ymax)
+void get_string_bbox(FT_Face face, const unsigned int* str, int nchar, double rot,
+                     int* xmin, int* xmax, int* ymin, int* ymax)
 {
     int char_xmin, char_xmax, char_ymin, char_ymax;
     FT_GlyphSlot slot = face->glyph;
@@ -159,7 +162,7 @@ void GetStringBBox(FT_Face face, const unsigned int *str, int nchar, double rot,
     {
         FT_Set_Transform(face, &trans, &pen);
         err = FT_Load_Char(face, str[i], FT_LOAD_RENDER);
-        if(err)  FTError(err);
+        if(err)  forward_ft_error(err);
         char_xmin = slot->bitmap_left;
         char_xmax = char_xmin + slot->bitmap.width;
         char_ymax = slot->bitmap_top;

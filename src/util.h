@@ -21,30 +21,30 @@
 #include <R_ext/GraphicsDevice.h>
 
 
-/* Get the .pkg.env variable (an environment) defined in the package */
-/* The sysfonts and showtext packages are using this way to store variables */
-SEXP GetPkgEnv(const char *pkgName);
+/* Get the .pkg.env variable (an environment) defined in one package */
+/* The sysfonts and showtext packages use this way to store variables */
+SEXP get_pkg_env(const char* pkg_name);
 
 /* Get a variable from .pkg.env */
-SEXP GetVarFromPkgEnv(const char *varName, const char *pkgName);
+SEXP get_var_from_pkg_env(const char* var_name, const char* pkg_name);
 
 /* Get .pkg.env$.outline_funs */
-FT_Outline_Funcs* GetFTOutlineFuncs();
+FT_Outline_Funcs* get_ft_outline_funcs();
 
 /* Get pkg.env$.nseg */
-int GetNseg();
+int get_num_segments();
 
 /* Get .pkg.env$.dev_units_per_point */
-double GetDevUnitsPerPoint();
+double get_dev_units_per_point();
 
 /* Get .pkg.env$.dd_saved */
-pDevDesc GetSavedDevDesc();
+pDevDesc get_saved_dev_desc();
 
 /* Get .pkg.env$.device_id */
-pGEDevDesc GetSavedDeviceID();
+pGEDevDesc get_saved_device_id();
 
 /* Get .pkg.env$.use_raster */
-Rboolean UseRaster();
+Rboolean use_raster();
 
 
 #endif /* UTIL_H_INCLUDED */
