@@ -36,7 +36,7 @@
 #' }
 #' @export
 #' 
-#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @author Yixuan Qiu <\url{https://statr.me/}>
 #' 
 #' @examples \dontrun{
 #' ## Set dpi to 200
@@ -151,7 +151,7 @@ showtext.opts = function(...)
 #'
 #' @export
 #' 
-#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @author Yixuan Qiu <\url{https://statr.me/}>
 #' 
 #' @seealso \code{\link{showtext_opts}()}, \code{\link{showtext_auto}()},
 #'          \code{\link{showtext_end}()}
@@ -174,7 +174,7 @@ showtext.opts = function(...)
 #' text(1, 1.2, intToUtf8(c(21315, 31179, 19975, 36733)), cex = 5)
 #' 
 #' ## Use another font
-#' if("simkai.ttf" %in% font.files()) font_add("kaishu", "simkai.ttf")
+#' if("simkai.ttf" %in% font_files()) font_add("kaishu", "simkai.ttf")
 #' text(1, 0.8, intToUtf8(c(19968, 32479, 27743, 28246)),
 #'      cex = 5, family = "kaishu")
 #'      
@@ -249,7 +249,7 @@ showtext.begin = function()
 #'
 #' @export
 #' 
-#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @author Yixuan Qiu <\url{https://statr.me/}>
 #' 
 #' @seealso \code{\link{showtext_begin}()}
 showtext_end = function()
@@ -283,7 +283,7 @@ showtext.end = function()
 #'
 #' @export
 #' 
-#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @author Yixuan Qiu <\url{https://statr.me/}>
 #' 
 #' @seealso \code{\link{showtext_begin}()}, \code{\link{showtext_end}()}
 #' 
