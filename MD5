@@ -1,4 +1,4 @@
-904ecec14a8bff99a77a368a83e7f701 *DESCRIPTION
+26f83bc4811355e9ae1762661eee9972 *DESCRIPTION
 5d9f0b501ea5e1b86b5721cdaf063482 *NAMESPACE
 6e73fe2b7b36bbbf611156098a192908 *R/deprecate.R
 aab06cf936a52ef7886e354da8d823a0 *R/showtext.R
@@ -11,10 +11,10 @@ e5ad0d870d102b8d73fd6757a94651e5 *configure
 68b329da9893e34099c7d8ad5cb9c940 *configure.win
 436c86ffaa853648a67b3ddd5c32240b *inst/AUTHORS
 782fe5998130fd4735ef1431998964d4 *inst/COPYRIGHTS
-f7d27f882547903fbc7180c47d8764bf *inst/NEWS.Rd
+7531aecd130f298227a93df0aa71f4ff *inst/NEWS.Rd
 cb955a0e974822836a6bf92501780e38 *inst/doc/introduction.R
 47ac44c8535ca6aba45ab3d52b0e7202 *inst/doc/introduction.Rmd
-629dac7b767e6532532f98590546e26d *inst/doc/introduction.html
+a5739ccc4e14f67fc17e8f7aacaa7a02 *inst/doc/introduction.html
 63539fe88bed8e32d128a1097fe09d17 *man/showtext_auto.Rd
 146e08cf6a4044df7d6de6b73baa3354 *man/showtext_begin.Rd
 99152650c5cdf487f12ae9a33ceb9d51 *man/showtext_end.Rd
@@ -34,7 +34,7 @@ bd5e22a220bb77202684b43ee2e5dc19 *src/outline.h
 7c21904aca3660d3781195116558fc1d *src/raster.c
 14a268032c6dfa1056e8c223a12c8b54 *src/raster.h
 2496b1f6abac8c50c05d8aa74dfe736b *src/register_routines.c
-a02a895eef14228da368d627e18c4531 *src/showtext-win.def
+790bf4a52fdc57b5b0063c0ec86b38d0 *src/showtext-win.def
 975532619753c983836c6c3940c7545d *src/showtext.c
 46907218703d6830f155688a0820553d *src/tidy.h
 a7cf6c9533ec8c0bf55c3860297f115c *src/utf8.c
