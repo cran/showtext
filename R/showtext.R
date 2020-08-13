@@ -7,7 +7,7 @@
 #' @description The two versions of this function are equivalent, but the
 #' "underscore" naming is preferred.
 #' 
-#' This function sets parameters that will affect the apprearance of the
+#' This function sets parameters that will affect the appearance of the
 #' graphs created with \pkg{showtext}.
 #' 
 #' @param \dots Options to be set, expressed in \code{name = value} pairs.
@@ -148,7 +148,7 @@ showtext.opts = function(...)
 #'          To switch back, users can call \code{\link{showtext_end}()}
 #'          to restore the original device functions. See examples
 #'          below for the usage of these functions.
-#'
+#' 
 #' @export
 #' 
 #' @author Yixuan Qiu <\url{https://statr.me/}>
@@ -208,6 +208,18 @@ showtext.opts = function(...)
 #' }
 showtext_begin = function()
 {
+    showtext_begin_internal(record = FALSE)
+}
+
+showtext_begin_internal = function(record = FALSE)
+{
+    if(isTRUE(record)) {
+        grDevices::recordGraphics(
+            showtext_begin_internal(FALSE), list(), getNamespace("showtext")
+        )
+        return(invisible(NULL))
+    }
+
     if(dev.cur() == 1) stop("no active graphics device")
     current_device = names(dev.cur())
 
@@ -219,6 +231,9 @@ showtext_begin = function()
 
         # Interactive devices defined in grDevices/R/device.R
         "X11", "X11cairo", "quartz", "windows", "JavaGD", "CairoWin", "CairoX11",
+
+        # RStudio
+        "RStudioGD",
 
         # From ragg package
         "agg_png", "agg_ppm", "agg_tiff", "agg_jpeg"
@@ -234,17 +249,24 @@ showtext_begin = function()
         current_device %in% devices_using_raster
     }
 
-    if(use_raster)
-    {
-        .pkg.env$.use_raster = TRUE
-        .pkg.env$.dev_units_per_point = as.numeric(.pkg.env$.dpi / 72.0)
-    } else {
-        .pkg.env$.use_raster = FALSE
-        .pkg.env$.dev_units_per_point = 1.0
-    }
+    ## See the explanation in zzz.R
+    dev_units_per_point = if(use_raster) as.numeric(.pkg.env$.dpi / 72.0) else 1.0
 
-    .Call("showtext_begin", PACKAGE = "showtext")
+    ## Device data that are computed by R. Will be passed to C, get updated, and
+    ## added to the .pkg.env$.devs environment
+    dev_data = list(
+        use_raster = use_raster,
+        dev_units_per_point = dev_units_per_point,
+        dd_saved = NULL
+    )
+    showtext_begin_c(dev_data)
+
     invisible(NULL)
+}
+
+showtext_begin_c = function(dev_data)
+{
+    .Call("showtext_begin", dev_data, PACKAGE = "showtext")
 }
 
 #' @rdname showtext_begin
@@ -266,7 +288,7 @@ showtext.begin = function()
 #' active device should be the same as the one when you call
 #' \code{\link{showtext_begin}()}, or an error will be issued.
 #' See the example in \code{\link{showtext_begin}()}.
-#'
+#' 
 #' @export
 #' 
 #' @author Yixuan Qiu <\url{https://statr.me/}>
@@ -276,7 +298,9 @@ showtext_end = function()
 {
     if(dev.cur() == 1) stop("no active graphics device")
     
-    .Call("showtext_end", PACKAGE = "showtext")
+    dev_id = .Call("showtext_end", PACKAGE = "showtext")
+    rm(list = dev_id, envir = .pkg.env$.devs)
+    gc()
     invisible(NULL)
 }
 
@@ -299,8 +323,13 @@ showtext.end = function()
 #' \pkg{showtext} to draw text. This helps to avoid the repeated calls of
 #' \code{\link{showtext_begin}()} and \code{\link{showtext_end}()}.
 #' 
-#' @param enable \code{TRUE} to turn on and \code{FALSE} to turn off
-#'
+#' @param enable \code{TRUE} to turn on and \code{FALSE} to turn off.
+#' @param record If \code{TRUE}, then \code{\link{showtext_begin}()} is added
+#'               to the display list of the current graphics device
+#'               (via \code{\link[grDevices]{recordGraphics}()}),
+#'               so that it may be "replayed" at a later time point
+#'               (via \code{\link[grDevices:recordPlot]{replayPlot}()}).
+#' 
 #' @export
 #' 
 #' @author Yixuan Qiu <\url{https://statr.me/}>
@@ -323,47 +352,32 @@ showtext.end = function()
 #' ## Turn off if needed
 #' showtext_auto(FALSE)
 #' }
-showtext_auto = function(enable = TRUE)
+showtext_auto = function(enable = TRUE, record = TRUE)
 {
-    enable = as.logical(enable)
-    
-    has_hook = length(getHook("before.plot.new")) > 0
-    is_showtext_hook = sapply(getHook("before.plot.new"), identical,
-                              y = showtext::showtext_begin)
-    
-    has_hook_grid = length(getHook("grid.newpage")) > 0
-    is_showtext_hook_grid = sapply(getHook("grid.newpage"), identical,
-                                   y = showtext::showtext_begin)
+    showtext_hook = structure(
+        function() showtext_begin_internal(record),
+        class = "showtext_hook"
+    )
 
-    already_hooked = has_hook && any(is_showtext_hook)
-    already_hooked_grid = has_hook_grid && any(is_showtext_hook_grid)
-    
-    if(enable)
-    {
-        if(!already_hooked)
-            setHook("before.plot.new", showtext::showtext_begin)
-        if(!already_hooked_grid)
-            setHook("grid.newpage", showtext::showtext_begin)
-    } else {
-        if(already_hooked)
-        {
-            old_hooks = getHook("before.plot.new")
-            new_hooks = old_hooks[!is_showtext_hook]
-            setHook("before.plot.new", new_hooks, "replace")
-        }
-        if(already_hooked_grid)
-        {
-            old_hooks = getHook("grid.newpage")
-            new_hooks = old_hooks[!is_showtext_hook_grid]
-            setHook("grid.newpage", new_hooks, "replace")
-        }
+    remove_hook = function(name) {
+        hooks = getHook(name)
+        is_showtext_hook = vapply(hooks, inherits, logical(1), "showtext_hook")
+        setHook(name, hooks[!is_showtext_hook], "replace")
+    }
+
+    remove_hook("plot.new")
+    remove_hook("grid.newpage")
+
+    if(isTRUE(enable)) {
+        setHook("plot.new", showtext_hook, "append")
+        setHook("grid.newpage", showtext_hook, "append")
     }
 }
 
 #' @rdname showtext_auto
 #' @export
-showtext.auto = function(enable = TRUE)
+showtext.auto = function(enable = TRUE, record = TRUE)
 {
     deprecate_message_once("showtext.auto()", "showtext_auto()")
-    showtext_auto(enable)
+    showtext_auto(enable, record)
 }

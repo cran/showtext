@@ -3,6 +3,17 @@
 #include "outline.h"
 #include "util.h"
 
+/* Get device-specific dev_units_per_point */
+static double get_dev_units_per_point(pDevDesc dd)
+{
+    pGEDevDesc gdd = desc2GEDesc(dd);
+    SEXP dev_data = PROTECT(get_device_data(gdd));
+    SEXP dev_units_per_point = VECTOR_ELT(dev_data, DEV_DATA_DEV_UNITS_PER_POINT);
+    double res = REAL(dev_units_per_point)[0];
+    UNPROTECT(1);  /* dev_data */
+    return res;
+}
+
 void showtext_metric_info(int c, const pGEcontext gc, double* ascent, double* descent, double* width, pDevDesc dd)
 {
     FT_Face face;
@@ -22,7 +33,7 @@ void showtext_metric_info(int c, const pGEcontext gc, double* ascent, double* de
     if(c == 0) c = 77;  /* Letter 'M' */
     if(c < 0)  c = -c;
 
-    /* c is the unicode of the character */
+    /* c is the Unicode of the character */
     face = get_ft_face(gc, (c < 1024) ? "sans" : "wqy-microhei");
     err = FT_Load_Char(face, c, FT_LOAD_NO_SCALE);
     if(err)
@@ -34,7 +45,7 @@ void showtext_metric_info(int c, const pGEcontext gc, double* ascent, double* de
     
     font_size = gc->ps * gc->cex;
     pts_per_EM_unit = font_size / face->units_per_EM;
-    dev_units_per_EM_unit = pts_per_EM_unit * get_dev_units_per_point();
+    dev_units_per_EM_unit = pts_per_EM_unit * get_dev_units_per_point(dd);
 
     *ascent  = face->glyph->metrics.horiBearingY * dev_units_per_EM_unit;
     *descent = face->glyph->metrics.height * dev_units_per_EM_unit - *ascent;
@@ -54,7 +65,7 @@ double showtext_str_width_utf8(const char* str, const pGEcontext gc, pDevDesc dd
 
     double font_size = gc->ps * gc->cex;
     double pts_per_EM_unit = font_size / face->units_per_EM;
-    double dev_units_per_EM_unit = pts_per_EM_unit * get_dev_units_per_point();
+    double dev_units_per_EM_unit = pts_per_EM_unit * get_dev_units_per_point(dd);
 
     double width = 0.0;
     int i;
@@ -92,7 +103,7 @@ void showtext_text_utf8_raster(double x, double y, const char* str, double rot, 
     double trans_x, trans_y;
 
     /* Calculate pixel size */
-    int px = (int) (gc->ps * gc->cex * get_dev_units_per_point() + 0.5);
+    int px = (int) (gc->ps * gc->cex * get_dev_units_per_point(dd) + 0.5);
 
     /* Get raster data */
     RasterData *rd = get_string_raster_image(unicode, len, px, px,
