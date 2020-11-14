@@ -1,4 +1,4 @@
-6e57f1c14c671417d1be5eb4a2e4a7fd *DESCRIPTION
+c26646363582f10fae2bbe73e65c3b6f *DESCRIPTION
 5d9f0b501ea5e1b86b5721cdaf063482 *NAMESPACE
 6e73fe2b7b36bbbf611156098a192908 *R/deprecate.R
 dafca2000e39139829e6eda187704a21 *R/showtext.R
@@ -11,10 +11,10 @@ e5ad0d870d102b8d73fd6757a94651e5 *configure
 68b329da9893e34099c7d8ad5cb9c940 *configure.win
 436c86ffaa853648a67b3ddd5c32240b *inst/AUTHORS
 782fe5998130fd4735ef1431998964d4 *inst/COPYRIGHTS
-457f251dd73b23ceffa778a9a0a6d53d *inst/NEWS.Rd
+526296f2124b6c3a62b318efa8346dad *inst/NEWS.Rd
 3d4942a19b3d4b87928b5ae7faa367e4 *inst/doc/introduction.R
 91b5b1618451671f7466ae4466531dc8 *inst/doc/introduction.Rmd
-7ca72dddc7279ff295d72671d17b6f45 *inst/doc/introduction.html
+5ad2cd1aea5817f8721d944ae5521fc7 *inst/doc/introduction.html
 83f017664405be2acd8ae3ffe805c508 *man/showtext_auto.Rd
 146e08cf6a4044df7d6de6b73baa3354 *man/showtext_begin.Rd
 99152650c5cdf487f12ae9a33ceb9d51 *man/showtext_end.Rd
@@ -35,11 +35,11 @@ d9f9141f514db096cdd3be41140976ab *src/outline.h
 14a268032c6dfa1056e8c223a12c8b54 *src/raster.h
 1a1e96d6b44da55d855027c5834a7b89 *src/register_routines.c
 465c55b038a30ef0ea473b883b42c5f0 *src/showtext-win.def
-2359d15cf7606c845462196ebf421d5d *src/showtext.c
+13bc23a181f86e7ade0289c464b22ce7 *src/showtext.c
 46907218703d6830f155688a0820553d *src/tidy.h
 a7cf6c9533ec8c0bf55c3860297f115c *src/utf8.c
 486e1a7893fa531c4c9b0856a20e2ced *src/utf8.h
-2d09c11b84484b076668a7861beca246 *src/util.c
+d54ff0704888804a3781b96763492ccc *src/util.c
 c39be6f985c7a4d02cebd1dda0df9b4e *src/util.h
 cce93e6400ddc77d654db8dd40642723 *vignettes/diagram.png
 91b5b1618451671f7466ae4466531dc8 *vignettes/introduction.Rmd
