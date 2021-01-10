@@ -1,4 +1,4 @@
-c26646363582f10fae2bbe73e65c3b6f *DESCRIPTION
+81d370157fcddf6bb8ec4801ebca07e0 *DESCRIPTION
 5d9f0b501ea5e1b86b5721cdaf063482 *NAMESPACE
 6e73fe2b7b36bbbf611156098a192908 *R/deprecate.R
 dafca2000e39139829e6eda187704a21 *R/showtext.R
@@ -6,15 +6,15 @@ c4746233c5664a06e5a91f08074cf680 *R/zzz.R
 f82abe1e6b080e1dcf1ad5f661f6da90 *README.md
 10e46294827309ad25ee55ba856caf07 *build/vignette.rds
 6ae6d26d431ba0d2141ccde7e76b5663 *cleanup
-e5ad0d870d102b8d73fd6757a94651e5 *configure
-1bb5ebb3f29220775d13ac46b47947e4 *configure.ac
+47160ab785a39a30c675cef6c7845e9e *configure
+9961d66153587187a540e8adf5629603 *configure.ac
 68b329da9893e34099c7d8ad5cb9c940 *configure.win
 436c86ffaa853648a67b3ddd5c32240b *inst/AUTHORS
 782fe5998130fd4735ef1431998964d4 *inst/COPYRIGHTS
-526296f2124b6c3a62b318efa8346dad *inst/NEWS.Rd
-3d4942a19b3d4b87928b5ae7faa367e4 *inst/doc/introduction.R
-91b5b1618451671f7466ae4466531dc8 *inst/doc/introduction.Rmd
-5ad2cd1aea5817f8721d944ae5521fc7 *inst/doc/introduction.html
+d510702fd11cc4ff866c97794c5f9d08 *inst/NEWS.Rd
+c6ce881d2c864a0f8b44af47372c354a *inst/doc/introduction.R
+58625eb366f57901d69006bbaa382b13 *inst/doc/introduction.Rmd
+ee0bc6238daaa3d847bcaba589233d42 *inst/doc/introduction.html
 83f017664405be2acd8ae3ffe805c508 *man/showtext_auto.Rd
 146e08cf6a4044df7d6de6b73baa3354 *man/showtext_begin.Rd
 99152650c5cdf487f12ae9a33ceb9d51 *man/showtext_end.Rd
@@ -42,6 +42,6 @@ a7cf6c9533ec8c0bf55c3860297f115c *src/utf8.c
 d54ff0704888804a3781b96763492ccc *src/util.c
 c39be6f985c7a4d02cebd1dda0df9b4e *src/util.h
 cce93e6400ddc77d654db8dd40642723 *vignettes/diagram.png
-91b5b1618451671f7466ae4466531dc8 *vignettes/introduction.Rmd
+58625eb366f57901d69006bbaa382b13 *vignettes/introduction.Rmd
 522bbd36c5074f790f835e42f216b118 *vignettes/load_fonts.png
 2008ed46432614b6cef5fb487ea9e4e0 *vignettes/source_han.png
